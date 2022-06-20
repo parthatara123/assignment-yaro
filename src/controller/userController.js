@@ -10,9 +10,8 @@ const {
 const newUserRegistration = async (req, res) => {
   try {
     //destructuring input fields from request headers
-    let { phonenumber, name, email, DOB, gender } = req.headers;
-    console.log(req.headers);
-
+    let { phonenumber, phoneNumber, name, email, DOB, gender } = req.headers;
+    console.log(phonenumber, phoneNumber);
     // validating phone number
     if (!isValidPhone(phonenumber)) {
       return res
@@ -54,10 +53,11 @@ const newUserRegistration = async (req, res) => {
 
     // checking if phone number is available in DB or not
 
-    const isPhoneNumberAvailable = await UserModel.find({
+    const isPhoneNumberAvailable = await UserModel.findOne({
       phoneNumber: phonenumber,
     });
 
+    console.log(isPhoneNumberAvailable, phonenumber);
     //if no user found by this phone number, returning null in response
     if (isPhoneNumberAvailable) {
       return res
